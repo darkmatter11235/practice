@@ -2,9 +2,11 @@ CXX = g++
 
 CXXFLAGS = -std=c++11 -Wall -g
 
-SOURCES = *.cpp
+LINK = -lstdc++
+
+SOURCES = $(wildcard *.cpp)
 
 EXE = run
 
 build:	$(SOURCES)
-	$(CC) $(CXXFLAGS) $(SOURCES) -o $(EXE)
+	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(EXE)

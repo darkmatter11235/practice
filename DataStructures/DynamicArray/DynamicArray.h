@@ -28,9 +28,21 @@ class dynamicArray {
 		dynamicArray(const dynamicArray& other);
 
 		//move constructor
-		//copy operator
-		//move operator
+		dynamicArray(dynamicArray&& other);
 
+		//copy assignment operator
+		dynamicArray& operator= (const dynamicArray& other);
+
+		//move assignment operator
+		dynamicArray& operator= (dynamicArray&& other);
+	
+		//const index operator
+		const int& operator[] (int index) const {
+			if ( index < 0 || index >= _size ) {
+				throw arrayException(2, "index out of bounds");
+			}
+			return p_vals[index];
+		}
 		//index operator
 		int& operator[] (int index) {
 			if ( index < 0 || index >= _size ) {
