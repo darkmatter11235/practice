@@ -46,6 +46,35 @@ void qsort(int arr[], int left, int right) {
   }
 }
 
+//not truly iterative
+//simulating the program stack with in memory stack representation
+void qsortIterativeWithStack(int arr[], int left, int right) {
+  
+  int st[right-left+1];
+  int top = -1;
+  st[top++] = left;
+  st[top]= right;
+  int pivotIndex;
+  while( top >= 0 ) {
+    
+    int r = st[top--];
+    int l = st[top];
+
+    pivotIndex = partition(arr, l, r);
+    if ( pivotIndex > l ) {
+      st[top++] = l;
+      st[top] = pivotIndex-1;
+    }
+
+    if ( r > pivotIndex ) {
+      st[top++] = pivotIndex+1;
+      st[top] = r;
+    }
+
+  }
+
+}
+
 void printArray(int arr[], int sz) {
   for(int i = 0; i < sz; i++) {
     cout << arr[i] << "-->";
@@ -57,9 +86,12 @@ void printArray(int arr[], int sz) {
 int main(char** argc, int argv) {
   int a[5] = { 1, 4, 56, 6 ,2};
   int sz = 5;
-  cout << "BEFORE SORT" << endl;
+  cout << "QSORT RECURSIVE" << endl;
   printArray(a, sz);
-  qsort(a, 0, sz-1);
-  cout << "AFTER SORT" << endl;
+  //qsort(a, 0, sz-1);
+  //cout << "AFTER QSORT RECURSIVE" << endl;
+  //printArray(a, sz);
+  qsortIterativeWithStack(a, 0, sz-1);
+  cout << "QSORT ITERATIVE WITH STACK" << endl;
   printArray(a, sz);
 }
