@@ -6,6 +6,7 @@ using namespace std;
 
 #define B 1000
 #define M 1000000007
+
 //this returns the modulo even for negative input a, and modulus over b
 int intmod(int a, int b) {
   return (a % b + b)%b;
@@ -17,6 +18,14 @@ bool validate_substring(string text, int index, string pattern) {
       if(text[index+i] != pattern[i]) { return false; }
     }
     return true;
+}
+
+int compute_power_mod(int val, int p) {
+    int pm = 1;
+    for(int i = 0; i < p; i++) {
+      pm = intmod( pm*val, M);
+    }
+    return pm;
 }
 
 int rk(string text, string pattern) {
@@ -43,7 +52,7 @@ int rk(string text, string pattern) {
   }
 
   //calculate the rolling hash
-  int E = intmod(pow(B, pattern_length-1), M);
+  int E = intmod(compute_power_mod(B, pattern_length-1), M);
   for(int i = pattern_length ; i < text_length; i++) {
     text_hash = intmod(text_hash - intmod(text[i-pattern_length]*E, M ), M);
     text_hash = intmod(text_hash*B, M);
