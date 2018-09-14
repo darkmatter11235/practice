@@ -20,14 +20,20 @@ class segmentTree {
 
     void buildTree() {
       vector<T> data_array(2*m_size);
+      int n = data_array.size();
       copy(m_data.begin(), m_data.end(), data_array.begin()+m_size);
       m_data = data_array;
+      for(int i = m_size-1; i > 0; i--) {
+        m_data[i] = compute(m_data[2*i], m_data[2*i+1]);
+      }
       for(const auto val : m_data) { cout << val << endl; }
     }
 
     void insert(const T& a ) {
       m_data.push_back(a);
     }
+
+  private:
 
   private:
 
@@ -51,6 +57,22 @@ class sumSegTree : public segmentTree<T> {
 
 };
 
+template<typename T> 
+class maxSegTree : public segmentTree<T> {
+
+  public:
+
+    maxSegTree(const vector<T> &data): segmentTree<T>(data) {
+    }
+
+    T compute(const T& a, const T& b) {
+      return a > b ? a : b;
+    }
+
+
+};
+
+
 
 int main() {
 
@@ -60,5 +82,7 @@ int main() {
   }
   sumSegTree<int> sTree(data);
   sTree.buildTree();
+  maxSegTree<int> maxTree(data);
+  maxTree.buildTree();
   return 0;
 }
